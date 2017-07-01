@@ -36,11 +36,11 @@ export class TreeNodeTemplateLoader implements OnInit, OnDestroy {
     selector: 'p-treeNode',
     template: `
         <ng-template [ngIf]="node">
-          {{ node.isVisible}}
+          {{node.isVisible}}
             <li   *ngIf="tree.droppableNodes" class="ui-treenode-droppoint" [ngClass]="{'ui-treenode-droppoint-active ui-state-highlight':draghoverPrev}"
             (drop)="onDropPoint($event,-1)" (dragover)="onDropPointDragOver($event)" (dragenter)="onDropPointDragEnter($event,-1)" (dragleave)="onDropPointDragLeave($event)"></li>
-            <li class="ui-treenode {{node.styleClass}}" *ngIf="!tree.horizontal" [hidden]="!node.isVisible" [ngClass]="{'ui-treenode-leaf': isLeaf()}">
-                <div class="ui-treenode-content" (click)="onNodeClick($event)" (contextmenu)="onNodeRightClick($event)" (touchend)="onNodeTouchEnd()"
+            <li class="ui-treenode {{node.styleClass}}" *ngIf="!tree.horizontal"  [hidden]="!node.isVisible" [ngClass]="{'ui-treenode-leaf': isLeaf()}">
+                <div  class="ui-treenode-content" (click)="onNodeClick($event)" (contextmenu)="onNodeRightClick($event)" (touchend)="onNodeTouchEnd()"
                     (drop)="onDropNode($event)" (dragover)="onDropNodeDragOver($event)" (dragenter)="onDropNodeDragEnter($event)" (dragleave)="onDropNodeDragLeave($event)"
                     [ngClass]="{'ui-treenode-selectable':tree.selectionMode && node.selectable !== false,'ui-treenode-dragover':draghoverNode}" [draggable]="tree.draggableNodes" (dragstart)="onDragStart($event)" (dragend)="onDragStop($event)">
                     <span class="ui-tree-toggler  fa fa-fw" [ngClass]="{'fa-caret-right':!node.expanded,'fa-caret-down':node.expanded}"
@@ -436,26 +436,32 @@ export class Tree implements OnInit,AfterContentInit,OnDestroy {
 
     private _filterNode(ids, node, filterFn, autoShow) {
       // if node passes function then it's visible
-
+      let isVisible = filterFn(node);
       //let isVisible = filterFn(node);
       node.isVisible = filterFn(node);
 
       if (node.children) {
         // if one of node's children passes filter then this node is also visible
         node.children.forEach((child) => {
-          if(child.isVisible){
-            if(child.parent)
-                child.parent.isVisible=true;
-          }
+
           if (this._filterNode(ids, child, filterFn, autoShow)) {
-            console.log(child);
+            isVisible=true;
             node.isVisible = true;
           }
+
+           if(child.isVisible){
+                if(child.parent){
+                  child.parent.isVisible=true;
+                }else{
+                  console.log(child);
+                }
+           }
+
         });
       }
 
 
-
+      return isVisible;
 
     }
 
