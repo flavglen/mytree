@@ -7,8 +7,69 @@ import { Component ,OnInit} from '@angular/core';
 })
 export class AppComponent   implements OnInit {
   title = 'app';
+  list1=[];
+  list2=[];
   files=[];
 ngOnInit() {
+
+
+    this.list1= [
+        {"brand": "VW", "year": 2012, "color": "Orange", "vin": "dsad231ff",
+        "data":[
+              {
+                  "label": "Documents",
+                  "id":1,
+                  "data": "Documents Folder",
+                  "expandedIcon": "fa-folder-open",
+                  "collapsedIcon": "fa-folder",
+                  "isVisible":true,
+                  "children": [{
+                          "label": "Work",
+                          "id":2,
+                          "data": "Work Folder",
+                          "expandedIcon": "fa-folder-open",
+                          "collapsedIcon": "fa-folder",
+                          "isVisible":true,
+                      },
+                      {
+                          "label": "Home",
+                          "id":3,
+                          "data": "Home Folder",
+                          "expandedIcon": "fa-folder-open",
+                          "collapsedIcon": "fa-folder",
+                          "isVisible":true,
+                      }]
+              },
+
+              {
+                  "label": "Movies12",
+                  "id":4,
+                  "data": "Movies Folder",
+                  "expandedIcon": "fa-folder-open",
+                  "collapsedIcon": "fa-folder",
+                  "isVisible":true,
+                  "children": [{
+                          "label": "Work2",
+                          "id":5,
+                          "data": "Work Folder",
+                          "expandedIcon": "fa-folder-open",
+                          "collapsedIcon": "fa-folder",
+                          "isVisible":true,
+                      },
+                      {
+                          "label": "Home2",
+                          "id":6,
+                          "data": "Home Folder2",
+                          "expandedIcon": "fa-folder-open",
+                          "collapsedIcon": "fa-folder",
+                          "isVisible":true,
+                      }]
+              }
+          ]
+
+      }]
+
+
 
     this.files=  [
           {

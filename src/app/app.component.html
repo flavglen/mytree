@@ -6,4 +6,11 @@
 </div>
 <h2>Here are some links to help you start: </h2>
 
-<p-tree selectionMode="checkbox" [(selection)]="selectedFiles2"  [value]="files"> </p-tree>
+
+<app-mypicklist [source]="list1" [target]="list2">
+  <ng-template let-car pTemplate="item">
+         <div class="ui-helper-clearfix">
+            <p-tree selectionMode="checkbox" [(selection)]="selectedFiles2"  [value]="car.data"> </p-tree>
+         </div>
+     </ng-template>
+ </app-mypicklist>
