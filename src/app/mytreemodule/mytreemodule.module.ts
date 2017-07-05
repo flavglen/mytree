@@ -7,7 +7,7 @@ import {Subscription}   from 'rxjs/Subscription';
 import {TreeDragDropService} from '../../../node_modules/primeng/components/common/treedragdropservice';
 
 @Component({
-    selector: 'p-treeNodeTemplateLoader',
+    selector: 'mp-treeNodeTemplateLoader',
     template: ``
 })
 export class TreeNodeTemplateLoader implements OnInit, OnDestroy {
@@ -33,7 +33,7 @@ export class TreeNodeTemplateLoader implements OnInit, OnDestroy {
 
 /*="(!node.hasOwnProperty('isVisible') || (node.hasOwnProperty('isVisible') && node.isVisible))"*/
 @Component({
-    selector: 'p-treeNode',
+    selector: 'mp-treeNode',
     template: `
         <ng-template [ngIf]="node">
           {{node.isVisible}}
@@ -53,13 +53,13 @@ export class TreeNodeTemplateLoader implements OnInit, OnDestroy {
                         [ngClass]="{'ui-state-highlight':isSelected()}">
                             <span *ngIf="!tree.getTemplateForNode(node)">{{node.label}}</span>
                             <span *ngIf="tree.getTemplateForNode(node)">
-                                <p-treeNodeTemplateLoader [node]="node" [template]="tree.getTemplateForNode(node)"></p-treeNodeTemplateLoader>
+                                <mp-treeNodeTemplateLoader [node]="node" [template]="tree.getTemplateForNode(node)"></mp-treeNodeTemplateLoader>
                             </span>
                     </span>
                 </div>
                 <ul class="ui-treenode-children" style="display: none;" *ngIf="node.children && node.expanded" [style.display]="node.expanded ? 'block' : 'none'">
-                    <p-treeNode *ngFor="let childNode of node.children;let firstChild=first;let lastChild=last; let index=index" [node]="childNode" [parentNode]="node"
-                        [firstChild]="firstChild" [lastChild]="lastChild" [index]="index"></p-treeNode>
+                    <mp-treeNode *ngFor="let childNode of node.children;let firstChild=first;let lastChild=last; let index=index" [node]="childNode" [parentNode]="node"
+                        [firstChild]="firstChild" [lastChild]="lastChild" [index]="index"></mp-treeNode>
                 </ul>
             </li>
 
@@ -270,7 +270,7 @@ export class UITreeNode implements OnInit {
 }
 
 @Component({
-    selector: 'p-tree',
+    selector: 'mp-tree',
     template: `
         <form>
           <input #filter (keyup)="filterNodes(filter.value, value)" placeholder="filter nodes"/>
@@ -278,13 +278,13 @@ export class UITreeNode implements OnInit {
         <div [ngClass]="{'ui-tree ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode,'ui-treenode-dragover':dragHover}" [ngStyle]="style" [class]="styleClass" *ngIf="!horizontal"
             (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)">
             <ul class="ui-tree-container">
-                <p-treeNode *ngFor="let node of value;let firstChild=first;let lastChild=last; let index=index" [node]="node"
-                [firstChild]="firstChild" [lastChild]="lastChild" [index]="index"></p-treeNode>
+                <mp-treeNode *ngFor="let node of value;let firstChild=first;let lastChild=last; let index=index" [node]="node"
+                [firstChild]="firstChild" [lastChild]="lastChild" [index]="index"></mp-treeNode>
             </ul>
         </div>
         <div [ngClass]="{'ui-tree ui-tree-horizontal ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode}"  [ngStyle]="style" [class]="styleClass" *ngIf="horizontal">
             <table *ngIf="value&&value[0]">
-                <p-treeNode [node]="value[0]" [root]="true"></p-treeNode>
+                <mp-treeNode [node]="value[0]" [root]="true"></mp-treeNode>
             </table>
         </div>
     `

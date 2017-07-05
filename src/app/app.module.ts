@@ -4,11 +4,13 @@ import { AppComponent } from './app.component';
 import { MytreemoduleModule } from './mytreemodule/mytreemodule.module';
 import { MypicklistComponent } from './mypicklist/mypicklist.component';
 import {PickListModule} from 'primeng/primeng';
+import { CampickComponent } from './campick/campick.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MypicklistComponent
+    MypicklistComponent,
+    CampickComponent
   ],
   imports: [
     BrowserModule,
