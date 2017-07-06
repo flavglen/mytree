@@ -1,0 +1,18 @@
+<div [class]="styleClass" [ngStyle]="style" [ngClass]="{'ui-picklist ui-widget ui-helper-clearfix': true,'ui-picklist-responsive': responsive}">
+
+  <div class="ui-picklist-listwrapper ui-picklist-source-wrapper" [ngClass]="{'ui-picklist-listwrapper-nocontrols':!showSourceControls}">
+     <mp-tree (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnSelect($event)" selectionMode="checkbox" [(selection)]="selectedFiles1"  [(value)]="src"> </mp-tree>
+  </div>
+
+  <div class="ui-picklist-buttons">
+    <div class="ui-picklist-buttons-cell">
+      <button type="button" pButton icon="fa-angle-double-right" (click)="moveRight(selectedFiles1)"></button>
+      <button type="button" pButton icon="fa-angle-double-left" (click)="moveLeft(selectedFiles2)"></button>
+    </div>
+  </div>
+
+  <div class="ui-picklist-listwrapper ui-picklist-target-wrapper" [ngClass]="{'ui-picklist-listwrapper-nocontrols':!showTargetControls}">
+     <mp-tree (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnSelect($event)" selectionMode="checkbox" [(selection)]="selectedFiles2"  [(value)]="dest"> </mp-tree>
+  </div>
+
+</div>
