@@ -90,66 +90,100 @@ getIndexCount(item: any, list: any){
         }
     }
 
-    private createParent(parent,data){
-      if(this.dest.length >0){
-        for(let j=0;j<this.dest.length;j++){
-            if(this.dest[j].label ==parent){
-              this.dest[j].children.push({label:data.label,isVisible:true});
+
+
+    private createParent(parent,data,mysrc){
+      if(mysrc.length >0){
+        for(let j=0;j<mysrc.length;j++){
+            if(mysrc[j].label ==parent){
+              let ischild=this.findChildren(mysrc[j].children,data.label);
+              if(ischild==-1)
+                 mysrc[j].children.push({label:data.label,isVisible:true});
             }else{
-                  let gc= this.Checkis(data.parent);
+                if(data.parent){
+                  let gc= this.Checkis(data.parent,mysrc);
                   if(!gc)
-                   this.dest.push({label:parent,isVisible:true,children:[]});
+                   mysrc.push({label:parent,isVisible:true,children:[]});
+                 }
             }
          }
       }else{
-          this.dest.push({label:parent,isVisible:true,children:[]});
-          this.createParent(parent,data);
+          mysrc.push({label:parent,isVisible:true,children:[]});
+          this.createParent(parent,data,mysrc);
       }
     }
 
     private createParent1(parent,data){
-      if(this.dest.length >0){
+      if(this.src.length >0){
         for(let j=0;j<this.src.length;j++){
-            if(this.src[j].label ==parent){
-              this.src[j].children.push({label:data.label,isVisible:true});
+            if(parent && this.src[j].label ==parent){
+              let ischild=this.findChildren(this.src[j].children,data.label);
+              if(ischild==-1)
+                this.src[j].children.push({label:data.label,isVisible:true});
             }else{
-                  let gc= this.Checkis1(data.parent);
+              if(data.parent){
+                  let gc= this.Checkis(data.parent,this.src);
                   if(!gc)
                    this.src.push({label:parent,isVisible:true,children:[]});
+                 }
             }
          }
       }else{
           this.src.push({label:parent,isVisible:true,children:[]});
-          this.createParent(parent,data);
+          this.createParent1(parent,data);
       }
     }
 
 
-moveRight(srcData){
-  //  this.dest=Object.assign([], this.tempsrc);
-    for(let i=0;i<srcData.length;i++){
 
+moveRight(srcData){
+    for(let i=0;i<srcData.length;i++){
         if(typeof srcData[i].parent ==='undefined'){
-             let f=this.Checkis(srcData[i]);
+             let f=this.Checkis(srcData[i],this.dest);
              if(!f)
              this.dest.push(srcData[i]);
              this.findIndexInList(srcData[i], this.src);
+              this.selectedFiles1=[];
 
         }else{
-             /*let isParentExist=this.findparent(srcData[i].parent.label,srcData);
-             if(isParentExist!=-1){
-                 continue;
-             }*/
              if(srcData[i].parent.label){
-                this.createParent(srcData[i].parent.label,srcData[i]);
+                this.createParent(srcData[i].parent.label,srcData[i],this.dest);
                 this.removeChildren(srcData[i],this.src);
                 this.selectedFiles1=[];
               }
           }
+  }
+}
+moveLeft(srcData){
+    for(let i=0;i<srcData.length;i++){
+        if(typeof srcData[i].parent ==='undefined'){
+             let f=this.Checkis(srcData[i],this.src);
+             if(!f)
+             this.src.push(srcData[i]);
+             this.findIndexInList(srcData[i], this.dest);
+             this.selectedFiles2=[];
+        }else{
+             if(srcData[i].parent.label){
+                this.createParent(srcData[i].parent.label,srcData[i],this.src);
+                this.removeChildren(srcData[i],this.dest);
+                this.selectedFiles2=[];
+              }
+          }
 
+     }
+
+}
+
+private findChildren(children,label){
+  let index =-1;
+  for(let i=0;i<children.length;i++){
+    if(children[i].label ==label){
+      index= i;
+      break;
+    }
   }
 
-
+  return index;
 }
 
 private findparent(parent,srcData){
@@ -163,10 +197,10 @@ private findparent(parent,srcData){
     return index;
 }
 
-private Checkis(data){
+private Checkis(data,src){
   let c=false;
-      for(let j=0;j<this.dest.length;j++){
-        if(this.dest[j].label == data.label){
+      for(let j=0;j<src.length;j++){
+        if(src[j].label == data.label){
           c= true;
 
           break;
@@ -204,31 +238,6 @@ removeChildren(item,list){
 }
 
 
-  moveLeft(srcData){
 
-    //  this.dest=Object.assign([], this.tempsrc);
-      for(let i=0;i<srcData.length;i++){
-
-          if(typeof srcData[i].parent ==='undefined'){
-               let f=this.Checkis1(srcData[i]);
-               if(!f)
-               this.src.push(srcData[i]);
-               this.findIndexInList(srcData[i], this.dest);
-
-          }else{
-               /*let isParentExist=this.findparent(srcData[i].parent.label,srcData);
-               if(isParentExist!=-1){
-                   continue;
-               }*/
-               if(srcData[i].parent.label){
-                  this.createParent1(srcData[i].parent.label,srcData[i]);
-                  this.removeChildren(srcData[i],this.dest);
-                  this.selectedFiles1=[];
-                }
-            }
-
-    }
-
-  }
 
 }
